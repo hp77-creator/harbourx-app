@@ -3,9 +3,9 @@ from typing import Type
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 
-import datetime
+from datetime import datetime
 
-from django.contrib.auth.models import AbstractBaseUser, BaseUserModel, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.validators import RegexValidator
 from django.db.models.fields import BLANK_CHOICE_DASH
 
@@ -72,6 +72,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
+
+    objects = UserManager()
 
 
     def __str__(self):
