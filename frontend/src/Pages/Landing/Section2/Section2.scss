@@ -1,0 +1,52 @@
+.Section2-container{
+    display: grid;
+    grid-template-columns: 60% 40%;
+    place-content: center;
+    background: #1B1B1B;;
+    color:#fff;
+    height: 100vh;
+    padding:20px;
+
+
+    .Section2-left-container{
+        display: grid;
+        place-content: center;
+
+        user-select: none;
+        
+        img{
+            width: 100%;
+        }
+
+
+    }
+    .Section2-right-container{
+
+        display: grid;
+        place-content: center;
+
+
+        & .right-top{
+            font-weight: 800;
+            font-size: 72px;
+            line-height: 84px;
+            text-align: center;
+        }
+
+        ul{
+            font-weight: 800;
+            font-size: 24px;
+            line-height: 28px;
+        }
+    }
+}
+
+
+@media only screen and (max-width: 600px) {
+    .Section2-container{
+        display: block;;
+    }
+
+
+
+}

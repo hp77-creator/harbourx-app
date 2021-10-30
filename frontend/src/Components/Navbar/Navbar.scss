@@ -1,0 +1,11 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    height: 74px;
+    .navbar-brand{
+        height: 100%;
+    }
+    .navbar-actions{
+        height: 100%;
+    }
+}
