@@ -1,6 +1,7 @@
 .navbar-actions-container{
     display: flex;
     height: 100%;
+   
     & > div{
         display: grid;
         place-content: center;
@@ -22,7 +23,7 @@
             }
         }
 
-        & > .dark-action-item{
+        & > a > .dark-action-item{
             border-radius: 30px;
             background: black;
             color: #fff;
@@ -34,6 +35,10 @@
                 box-shadow: 0 0 5px rgb(47, 47, 47);
             }
         }
+
+        & > a:active, & > a:focus{
+            text-transform: none;
+        }
     }
 }
 
@@ -41,4 +46,4 @@
     .navbar-actions-container{
         display: none;
     }
-}
+} 

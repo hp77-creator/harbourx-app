@@ -1,0 +1,96 @@
+.register-form-container{
+    height: 100%;
+    width: 100%;
+
+    .register-form-title{
+        padding-top: 30px;
+        font-weight: 800;
+        font-size: 48px;
+        line-height: 56px;
+        text-align: center;
+        
+        color: #000000;
+    }
+
+    .register-form{
+        padding:35px;
+
+        .register-form-welcome{
+            
+            text-align: left;
+            font-weight: 800;
+            font-size: 24px;
+            line-height: 28px;
+
+            color: #000000;
+        }
+
+        .register-form-main{
+            .register-form-input-group{
+                width: calc(100% - 35px);
+                padding-top: 10px;
+                padding-bottom: 10px;
+                cursor: pointer;
+                input{
+                    border: none;
+                    outline:none;
+                    padding: 24px 21px 24px 21px;
+                    background: #EAEAEA;
+                    border-radius: 10px;
+                    
+                    font-family: Roboto;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 14px;
+                    line-height: 16px;
+
+                    color: #000000;
+                    width: 100%;
+
+                    &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+                        color: #000;
+                        opacity: 1; /* Firefox */
+                      } 
+                }
+                .register-form-submit{
+                    cursor: pointer;
+                    border: none;
+                    outline:none;
+                    padding: 24px 21px 24px 21px;
+                    background: #EAEAEA;
+                    border-radius: 10px;
+                    
+                    color: #000000;
+                    width: 100%;
+
+                    background: #68767B;
+                    color:#fff;
+
+                    font-weight: 800;
+                    font-size: 24px;
+                    line-height: 28px;
+                    text-align: center;
+
+                    color: #FFFFFF;
+                    
+                    transition-duration: 0.2s;
+                    &:hover{
+                        box-shadow: 0 0 10px #979797;
+                        background:#5a6568;
+                    }
+                    &:active{
+                        background:#000;
+                        color:#fff;
+                    }
+                }
+            
+            }
+        }
+    }
+    
+}
+.register-btn-active{
+    background:#000;
+    color:#fff;
+
+}

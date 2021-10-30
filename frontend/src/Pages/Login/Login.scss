@@ -1,0 +1,16 @@
+.col2-container{
+    height: calc(100vh - 75px);
+    display: grid;
+    grid-template-columns:75% 25%;
+    background-size: contain;
+    background-size: 100% 100%;
+
+
+    .col2-left{
+        height: calc(100vh - 75px);
+    }
+    .col2-right{
+        height: calc(100vh - 75px);
+        
+    }
+}

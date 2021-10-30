@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import "./NavbarActions.scss"
 export default function NavbarActions() {
     return (
@@ -7,7 +8,7 @@ export default function NavbarActions() {
             <div><div className="action-item">Features</div></div>
             <div><div className="action-item">About</div></div>
             <div>
-                <div className="dark-action-item">Login / Sign Up</div>
+                <Link to="/login"><div className="dark-action-item">Login / Sign Up</div></Link>
             </div>
         </div>
     )

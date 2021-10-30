@@ -1,0 +1,16 @@
+.rcol2-container{
+    height: calc(100vh - 75px);
+    display: grid;
+    grid-template-columns:25% 75%;
+    background-size: contain;
+    background-size: 100% 100%;
+
+
+    .rcol2-left{
+        height: calc(100vh - 75px);
+    }
+    .rcol2-right{
+        height: calc(100vh - 75px);
+        
+    }
+}
