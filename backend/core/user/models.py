@@ -65,7 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True) # validators should be a list
 
-    image = models.ImageField(name=f"image of {username}")
+    image = models.ImageField()
     joined_at = models.DateTimeField(default=datetime.now)
     owes = models.IntegerField(default=0)
     owed = models.IntegerField(default=0)
