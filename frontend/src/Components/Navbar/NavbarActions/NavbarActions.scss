@@ -40,6 +40,18 @@
             text-transform: none;
         }
     }
+    & .dark-action-item{
+        border-radius: 30px;
+        background: black;
+        padding:10px;
+        padding-left: 30px;
+        padding-right: 30px;
+        transition-duration: 0.5s;
+        &:hover{
+            box-shadow: 0 0 5px rgb(47, 47, 47);
+        }
+        color: #fff;
+    }
 }
 
 @media only screen and (max-width: 600px) {

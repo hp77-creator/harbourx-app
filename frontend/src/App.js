@@ -9,7 +9,7 @@ import Register from './Pages/Register/Register.page';
 
 
 function App() {
-  let [appState,setAppState] = useState({defaultValues});
+  let [appState,setAppState] = useState({...defaultValues,islogged:true});
   let finalValues = {
     appState,
     setAppState,
@@ -20,9 +20,10 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/" exact component={Landing} />
-          <Route path="/home" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/home" exact component={Home} />
+          <Route path="/home/:action" component={Home} />
         </Switch>
       </BrowserRouter>
     </MainContext.Provider>
