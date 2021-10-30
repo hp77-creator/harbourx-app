@@ -10,4 +10,3 @@ from core.user.serializers import UserSerializer
 class UserApiView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
