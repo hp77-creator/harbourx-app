@@ -7,7 +7,7 @@ CREATE TABLE users(
     firstname varchar(30),
     lastname varchar(30),
     email varchar(50) not null unique,
-    password varchar(1024) not null,
+    userpassword varchar(1024) not null,
     phone_number varchar(20),
     profileimage varchar(512),
     joinedat varchar(100),
@@ -38,7 +38,7 @@ CREATE TABLE joins (
 );
 
 CREATE TABLE splits (
-    id int not null primary key,
+    id int not null primary key IDENTITY(1,1),
     splitamount decimal not null,
     createdat varchar(100)
 )

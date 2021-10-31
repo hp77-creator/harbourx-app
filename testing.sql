@@ -63,7 +63,7 @@
 -- exec sp_columns splitmembers;
 
 
-        -- INSERT INTO users (
+        -- INSERT INTO pushpendrahpx.dbo.users (
         --         username,
         --         firstname,
         --         lastname,
@@ -78,7 +78,7 @@
         --         'pushpendrahpx',
         --         'Pshosdf',
         --         'sdfuhsiofdjnms',
-        --         'uhdfjnouijd@gmail.com',
+        --         'aqwe.com',
         --         'U2FsdGVkX1+ueIwM6/aCuOv79gHsMVeYcbMnDryEY+Vwl7M57/y3/1Z+sx59CtWT',
         --         'uysgdzfihsuhdfn;ujll',
         --         'https://avatars.githubusercontent.com/u/48829314?s=400&v=4',
@@ -86,4 +86,17 @@
         --         0,
         --         0
         --     );
-SELECT * FROM users;
+-- SELECT * FROM users;
+-- DELETE FROM users;
+
+-- SELECT * FROM groups;
+-- SELECT * FROM joins;
+-- SELECT * FROM users ,joins, groups where users.id = joins.userid and groups.id = joins.groupid;
+-- exec sp_columns splits;
+
+-- 
+-- SELECT * FROM splits;
+-- INSERT INTO splits (id,splitamount,createdat) VALUES (2,500,'1635674227755'); SELECT * FROM splits where createdat = '1635674227755';
+
+-- DELETE FROM splitmembers;
+

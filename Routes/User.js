@@ -4,8 +4,8 @@ const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
 
 const {Request} = require("tedious");
-const {AzureSQLConnection} = require("./../imports")
-
+const {AzureSQLConnection,insertDB,loginDB,selectDB} = require("./../imports")
+const asyncHandler = require('express-async-handler')
 
 
 router.get("/",(req,res)=>{
@@ -14,18 +14,43 @@ router.get("/",(req,res)=>{
     })
 })
 
-router.post("/login",(req,res)=>{
-    try{
-        let {email,password} = req.body;
-        console.log(email,password);
+router.post("/login",asyncHandler(async (req,res)=>{
+    
 
-        res.json({statis:"done"});
-    }catch(err){
-        res.status(500).json({stataus:"server error"})
+
+    let {email,password} = req.body;
+if(!(email &&password)) {res.status(500).json({status:false,message:"PLEASE SEND CORRECT JSON"})};
+
+let hashedpassword = CryptoJS.SHA256(password).toString()
+
+let query = `SELECT * FROM users WHERE email='${email}' and userpassword='${hashedpassword}'; `;
+let result = await loginDB(query,(data)=>{
+
+
+    // console.log(data)
+    // Called after result
+    if(data.length == 1){
+        res.setHeader('Content-Type', 'application/json');
+        const accessToken = jwt.sign({userdata:{...data[0]},email}, process.env.SECRET_KEY, {
+            expiresIn: "1d",
+        });
+        let obj2send = {userdata:{...data[0]},email,accessToken,process:"LOGIN"}
+
+        res.status(200).json(obj2send).end();
+    }else{
+        res.setHeader('Content-Type', 'application/json');
+        
+        res.status(500).json(data).end()
     }
+   
+
+
+
 })
 
-router.post("/register",(req,res)=>{
+}))
+
+router.post("/register",async (req,res)=>{
     try{
         let {
             username,
@@ -39,67 +64,70 @@ router.post("/register",(req,res)=>{
         if(!(username && email && password && fullname && phonenumber)) throw "Invalid Fields";
 
         let timestamp = new Date();
-        let hashedpassword = CryptoJS.AES.encrypt(
-            password,
-            process.env.SECRET_KEY
-          ).toString()
+        let hashedpassword = CryptoJS.SHA256(password).toString()
 
-
-        // Read all rows from table
-        const request = new Request(
-            `
-            INSERT INTO users (
-                username,
-                firstname,
-                lastname,
-                email,
-                password,
-                phone_number,
-                profileimage,
-                joinedat,
-                owes,
-                owed
-            ) values (
-                'dgsdf',
-                'dsfgd',
-                'dsgrdgdsg',
-                'sdfg@gnmail.com',
-                'dsfgsaedfsdfgsrdgf',
-                '4w5e543545',
-                'https://avatars.githubusercontent.com/u/48829314?s=400&v=4',
-                '7364837469',
-                0,
-                0            
-            );`,
-        (err, rowCount) => {
-            console.log(err,rowCount)
-            if (err) {
-                
-            console.error(err.message); throw "DB ERROR"
-            } else {
-
-                
-                console.log(email,password);
-
-                res.status(200).json({statis:"done"});
-            console.log(`${rowCount} row(s) returned`);
-            }
-        }
+        let result = await insertDB(`
+        
+        INSERT INTO users (
+            username,
+            firstname,
+            lastname,
+            email,
+            userpassword,
+            phone_number,
+            profileimage,
+            joinedat,
+            owes,
+            owed
+        ) values (
+            '${username}',
+            '${fullname.split(" ")[0]}',
+            '${fullname.split(" ")[1]}',
+            '${email}',
+            '${hashedpassword}',
+            '${phonenumber}',
+            'https://avatars.githubusercontent.com/u/48829314?s=400&v=4',
+            ${timestamp.getTime()},
+            0,
+            0
         );
-    
-        request.on("row", columns => {
-            columns.forEach(column => {
-                console.log("%s\t%s", column.metadata.colName, column.value);
-            });
+        
+        SELECT * FROM users where email='${email}';`,(data)=>{
+
+
+            console.log(data)
+            // Called after result
+            if(data.length != 0){
+                res.setHeader('Content-Type', 'application/json');
+                const accessToken = jwt.sign({userdata:{...data[0]},email}, process.env.SECRET_KEY, {
+                    expiresIn: "1d",
+                });
+                let obj2send = {userdata:{...data[0]},email,accessToken,process:"REGISTER"}
+        
+                res.status(200).json(obj2send).end();
+            }else{
+                res.setHeader('Content-Type', 'application/json');
+                
+                res.status(500).json(data).end()
+            }
+
+
+
         });
-
-        AzureSQLConnection.execSql();
-
-
+        // console.log("RESULT" + result)
 
     }catch(err){
         console.log(err)
-        res.status(500).end(String(err))
+        // res.status(500).send(String(err))
     }
 })
+
+router.get("/all",asyncHandler(async (req,res)=>{
+    let query = 'SELECT id,username,firstname,lastname,email,phone_number,profileimage,joinedat,owes,owed FROM users;'
+    let result = await selectDB(query,(data)=>{
+        console.log(data)
+        res.json(data)
+    });
+}))
+
 module.exports = router
