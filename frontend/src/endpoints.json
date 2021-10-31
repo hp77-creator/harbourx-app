@@ -1,0 +1,6 @@
+{
+    "register":"/api/user/register",
+    "login":"/api/user/login",
+    "getAllFriends":"/api/user/all",
+    "razorpay":"/api/razorpay"
+}

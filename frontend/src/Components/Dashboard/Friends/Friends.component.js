@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import { PageHeader,Button,Dropdown,Menu,Table, Tag, Space, Switch } from 'antd';
-import { EllipsisOutlined } from '@ant-design/icons';
-import { BrowserRouter,Route } from 'react-router-dom';
+import { PageHeader,Button,Dropdown,Menu,Table, Tag, Space, Switch,Spin  } from 'antd';
+import { EllipsisOutlined,LoadingOutlined  } from '@ant-design/icons';
+import { BrowserRouter,Link,Route } from 'react-router-dom';
+
+
+import hosts from "./../../../hosts.json";
+import endpoints from "./../../../endpoints.json";
+import cookies from '../../../functions/cookies';
+
+
+
 const routes = [
     {
       breadcrumbName: 'Home',
@@ -56,77 +64,79 @@ const DropdownMenu = () => (
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: text => <a>{text}</a>,
+      render: text => <span>{text}</span>,
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Username',
+      dataIndex: 'username',
+      key: 'username',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: tags => (
-        <>
-          {tags.map(tag => {
-            let color = tag.length > 5 ? 'geekblue' : 'green';
-            if (tag === 'loser') {
-              color = 'volcano';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
-        </Space>
-      ),
-    },
-  ];
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
+      title: 'Joined At',
+      key: 'joinedat',
+      dataIndex:"joinedat"
     },
   ];
 
 
 
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 export default class Friends extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      data:[],
+      isLoading:true
+    }
+  }
+
+  getAllFriends = async ()=>{
+    let re = await fetch(hosts.default + endpoints.getAllFriends,{
+      method:"GET",
+      headers:{
+        'Authorization': 'Bearer '+cookies.getCookie("accessToken")
+      }
+    });
+
+
+    let da = await re.json()
+
+    console.log(da)
+    
+    let newd = []
+    for(let i=0; i < da.length; i++){
+      let obj = {};
+      obj["key"] = da[i].id;
+      obj["username"] = da[i].username;
+      obj["name"] = da[i].firstname +" "+ da[i].lastname;
+      obj["email"] = da[i].email;
+      obj["joinedat"] = (new Date(Number(da[i].joinedat))).toString()
+
+      newd.push(obj)
+    }
+    console.log(newd)
+    this.setState({data:newd,isLoading:false})
+
+  }
+  componentDidMount(){
+
+    this.getAllFriends()
+    
+
+  }
+
+
+
+
+
+
     render() {
         return (
             <div>
@@ -137,7 +147,7 @@ export default class Friends extends Component {
                     breadcrumb={{ routes }}
                     extra={[
                         <Button key="1" type="primary">
-                          Primary
+                          Add a Friend
                         </Button>,
                         <DropdownMenu key="more" />,
                       ]}
@@ -147,8 +157,9 @@ export default class Friends extends Component {
 
 
 
-                <div style={{padding:"10px"}}>
-                    <Table columns={columns} dataSource={data} />
+                <div >
+                  {this.state.isLoading ?<Spin indicator={antIcon} size="large" /> : "" }
+                    <Table columns={columns} dataSource={this.state.data} />
                 </div>
 
                     {/* <BrowserRouter>

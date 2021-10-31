@@ -1,10 +1,13 @@
 const express = require('express');
 require('dotenv').config();
 const { Connection, Request } = require("tedious");
-
+const Razorpay = require("razorpay")
 const PORT = process.env.PORT || 4500;
 
-
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY,
+  key_secret: process.env.RAZORPAY_SECRET,
+});
 
 // Custom imports
 // const HospitalController = require("./Routes/HospitalRoutes");
@@ -211,5 +214,5 @@ module.exports = {
     AzureSQLConnection:connection,
     insertDB,
     loginDB,
-    selectDB
+    selectDB,razorpay
 }

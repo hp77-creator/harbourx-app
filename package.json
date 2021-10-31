@@ -24,6 +24,7 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
+    "razorpay": "^2.0.7",
     "tedious": "^14.0.0"
   }
 }
